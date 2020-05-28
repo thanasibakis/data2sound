@@ -1,13 +1,17 @@
 {
   "name": "data2sound",
   "version": "2020.5.28",
-  "description": "",
+  "description": "(In Development) An API to sonify time series data with MIDI",
   "main": "sonification.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
     "data2sound": "api.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thanasibakis/data2sound.git"
   },
   "author": "Thanasi Bakis",
   "license": "ISC",

@@ -23,5 +23,5 @@ app.post("/", (req, res) => {
     res.send(Sonification.sonification_of(parameter_map, config))
 })
 
-let port = 80
-app.listen(port, () => console.log(`App listening at http://localhost:${port}`))
+let port = process.argv[2] || 80
+app.listen(port, () => console.log("Now listening..."))
