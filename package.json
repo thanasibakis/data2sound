@@ -1,0 +1,20 @@
+{
+  "name": "data2sound",
+  "version": "2020.5.28",
+  "description": "",
+  "main": "sonification.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "data2sound": "api.js"
+  },
+  "author": "Thanasi Bakis",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "midi-writer-js": "^1.7.4"
+  }
+}
