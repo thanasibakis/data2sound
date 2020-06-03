@@ -18,9 +18,10 @@ app.post("/", (req, res) => {
     
     let parameter_map = req.body.parameter_map
     let config = req.body.config
+    let measurement_types = req.body.measurement_types
 
     res.setHeader('Content-Type', 'text/plain')
-    res.send(Sonification.sonification_of(parameter_map, config))
+    res.send(Sonification.sonification_of(parameter_map, measurement_types, config))
 })
 
 let port = process.argv[2] || 80

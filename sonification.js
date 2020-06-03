@@ -1,12 +1,6 @@
 let MidiWriter = require("midi-writer-js")
 let Segmentation = require("./segmentation")
 
-// Use this structure instead of hard-coding the CC values
-const PARAM = {
-    PITCH: "pitch",
-    VOLUME: "volume"
-}
-
 
 // Round a pitch to be tonal to the scale.
 // The paper only used Cmaj so it hardcoded a decrement
@@ -27,12 +21,12 @@ let get_scale_tone_for = (midi_note, config) => {
         return increased
 }
 
-let sonification_of = (parameter_map, config) => {
+let sonification_of = (parameter_map, measurement_types, config) => {
     let midi_track = new MidiWriter.Track()
 
     // Returns an Array of Arrays such that midi_events[parameter][time] = a midi event
     let midi_events = Object.keys(parameter_map)
-                        .map(parameter => sonify_parameter(parameter, parameter_map[parameter], config))
+                        .map(parameter => sonify_parameter(parameter, parameter_map[parameter], measurement_types[parameter], config))
 
     // We need to add the events of every parameter in order of time, not parameter type
     // otherwise we'll see all the CC events occur after the notes are done
@@ -53,24 +47,51 @@ let sonification_of = (parameter_map, config) => {
 }
 
 
-let sonify_parameter = (parameter, ts, config) => {
-    let ts_statistics = {
-        min: Math.min(...ts),
-        max: Math.max(...ts)
+let sonify_parameter = (parameter, ts, measurement_type, config) => {
+    let segments = Segmentation.segmentation_of(ts)
+    console.log(segments)
+
+    let ts_statistics = {}
+    let value_function = null
+
+    switch(measurement_type) {
+        case "mean":
+            value_function = mean
+            ts_statistics.min = Math.min(...ts)
+            ts_statistics.max = Math.max(...ts)
+            break
+
+        case "min":
+            value_function = (segment => Math.min(...segment))
+            ts_statistics.min = Math.min(...ts)
+            ts_statistics.max = Math.max(...ts)
+            break
+
+        case "max":
+            value_function = (segment => Math.max(...segment))
+            ts_statistics.min = Math.min(...ts)
+            ts_statistics.max = Math.max(...ts)
+            break
+        
+        case "length":
+            value_function = (segment => segment.length)
+            ts_statistics.min = segments.map(value_function).reduce((a,b) => Math.min(a,b))
+            ts_statistics.max = segments.map(value_function).reduce((a,b) => Math.max(a,b))
+            break
     }
 
-    if(parameter == PARAM.PITCH) // two == not === because the PARAM integer gets cast to a string somewhere
-        return Segmentation.segmentation_of(ts)
-            .map(segment => create_note_event_from(segment, ts_statistics, config))
+    switch(parameter) {
+        case "pitch":
+            return segments.map(segment => create_note_event_from(segment, value_function, ts_statistics, config))
 
-    else if(parameter == PARAM.VOLUME)
-        return Segmentation.segmentation_of(ts)
-            .map(segment => create_cc_event_from(segment, 7, ts_statistics))
+        case "volume":
+            return segments.map(segment => create_cc_event_from(segment, 7, value_function, ts_statistics))
+    }   
 }
 
 
-let create_cc_event_from = (array, cc_number, ts_statistics) => {
-    let segment_value = mean(array)
+let create_cc_event_from = (array, cc_number, value_function, ts_statistics) => {
+    let segment_value = value_function(array)
 
     let cc_value = Math.round(
         map_to_range(
@@ -86,9 +107,9 @@ let create_cc_event_from = (array, cc_number, ts_statistics) => {
         
 }
 
-let create_note_event_from = (array, ts_statistics, config) => {
+let create_note_event_from = (array, value_function, ts_statistics, config) => {
     let duration = array.length * config.ticks_per_samp
-    let segment_value = mean(array)
+    let segment_value = value_function(array)
 
     // Map the segment value (within the total range of the data) to the range of pitches
     let note = Math.round(
