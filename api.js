@@ -12,8 +12,8 @@ app.use(bodyParser.json())
 // Enable cross-origin
 app.use(cors())
 
-// Configure the handler for a POST request on /
-app.post("/", (req, res) => {
+// Configure the handler for a POST request on /sonify
+app.post("/sonify", (req, res) => {
     console.log(`Received a request from ${req.headers['x-forwarded-for'] || req.connection.remoteAddress}`)
     
     // These objects are all mandatory to the request
