@@ -1,3 +1,20 @@
+"use strict"
+
+let helpers = require("./helpers")
+
+let argmin = helpers.argmin
+let mean = helpers.mean
+let merge_pair = helpers.merge_pair
+let sum = helpers.sum
+
+
+
+/*
+    Determine how many segments into which a given time series should be broken.
+
+    ts:
+        An array of numbers, representing time series data.
+*/
 let determine_num_segments_for = (ts) => {
     if (ts.length < 100)
         return Math.round(0.50 * ts.length)
@@ -8,7 +25,15 @@ let determine_num_segments_for = (ts) => {
 }
 
 
-// MSE of simple linear regression (assuming constant sample rate; treating index as x)
+
+/*
+    Returns the MSE of the simple linear regression through the given data.
+
+    A constant sample rate is assumed. The indices of the data are treated as X.
+
+    array:
+        An array of numbers, representing Y.
+*/
 let error_of = (array) => {
     let Xbar = (array.length - 1) / 2
     let Ybar = sum(array) / array.length
@@ -24,7 +49,16 @@ let error_of = (array) => {
 }
 
 
-// Bottom-up algorithm for segmentation (Pazzani 6)
+ 
+/*
+    Returns a segmentation of a given time series as an array of smaller arrays
+    that partition the original.
+
+    Uses the bottom-up algorithm for segmentation (Pazzani 6)
+
+    ts:
+        An array of numbers, representing time series data.
+*/
 let segmentation_of = (ts) => {
     let segments = []
     let costs = []
@@ -57,15 +91,10 @@ let segmentation_of = (ts) => {
 }
 
 
-// Helper Functions
 
-// https://gist.github.com/engelen/fbce4476c9e68c52ff7e5c2da5c24a28
-let argmin = array => array.map((x, i) => [x, i]).reduce((r, a) => (a[0] < r[0] ? a : r))[1]
-let merge_pair = (array, index1, index2) => array[index1].concat(array[index2])
-let sum = array => array.reduce((a, b) => a + b)
-let mean = array => sum(array) / array.length
-
-
+/*
+    Enables the use of "require(./segmentation)" to access segmentation_of()
+*/
 module.exports = {
-    segmentation_of: segmentation_of
+    segmentation_of
 }
