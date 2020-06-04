@@ -49,7 +49,6 @@ let sonification_of = (parameter_map, measurement_types, config) => {
 
 let sonify_parameter = (parameter, ts, measurement_type, config) => {
     let segments = Segmentation.segmentation_of(ts)
-    console.log(segments)
 
     let ts_statistics = {}
     let value_function = null

@@ -8,7 +8,7 @@ let determine_num_segments_for = (ts) => {
 }
 
 
-// SSE of simple linear regression (assuming constant sample rate; treating index as x)
+// MSE of simple linear regression (assuming constant sample rate; treating index as x)
 let error_of = (array) => {
     let Xbar = (array.length - 1) / 2
     let Ybar = sum(array) / array.length
@@ -20,7 +20,7 @@ let error_of = (array) => {
 
     let yhat = x => m * x + b
 
-    return sum(array.map((y, x) => (y - yhat(x)) ** 2))
+    return mean(array.map((y, x) => (y - yhat(x)) ** 2))
 }
 
 
