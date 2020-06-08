@@ -54,7 +54,9 @@ let error_of = (array) => {
     Returns a segmentation of a given time series as an array of smaller arrays
     that partition the original.
 
-    Uses the bottom-up algorithm for segmentation (Pazzani 6)
+    Uses the bottom-up algorithm for segmentation.
+    
+    Credit: Keogh E, Chu S, Hart D, Pazzani M. See README for full citation.
 
     ts:
         An array of numbers, representing time series data.

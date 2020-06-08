@@ -15,6 +15,8 @@ let mean = helpers.mean
 
     Why a function? See the sonify_parameter() comments.
 
+    Credit: this iss an expansion of Last, M., & Usyskin, A. See README for full citation.
+
     array:
         An array of numbers.
 
@@ -72,6 +74,8 @@ let create_cc_event_from = (array, cc_number, value_function, ts_statistics, con
     of numbers, to a given MIDI track.
 
     Why a function? See the sonify_parameter() comments.
+
+    Credit: this is an expansion of Last, M., & Usyskin, A. See README for full citation.
 
     array:
         An array of numbers.
@@ -187,6 +191,8 @@ let sonification_of = (parameter_map, measurement_types, config) => {
     By returning a function, the caller of this function does not have to worry about
     what kind of event they are actually receiving; they can simply use the result
     to build their track.
+
+    Credit: this is an expansion of Last, M., & Usyskin, A. See README for full citation.
 
     parameter:
         A string with the name of one of the supported parameters as listed in the API documentation.

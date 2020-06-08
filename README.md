@@ -64,6 +64,20 @@ To make use of the API, perform a POST request to `[server host:port]/sonify` wi
 }
 ```
 
+## Will more sound parameters be supported?
+
+Theoretically, it's easy to add support for more parameters here-- especially continuous controllers, since they're usually just mapping the data to values 0-127. However, this was developed alongside a client program (see below, "Example Usage") which interprets the MIDI messages to feed to a Tone.js synth, so at the moment, I'm keeping the capabilties of the two programs hand-in-hand.
+
 ## Example usage
 
 This API is currently deployed at [https://data2sound.herokuapp.com](https://data2sound.herokuapp.com). Navigating to this page directly (ie. not the /sonify endpoint) will bring you to the Data to Sound project page, a client program that interfaces with this API. Its source code can be found [here](https://github.com/thanasibakis/CS190/tree/master/final-project).
+
+## Credits
+
+This project is an implementation and expansion of the work done in the following paper:
+
+> Last, M., & Usyskin, A. (2015). Listen to the sound of data. In Multimedia Data Mining and Analytics (pp. 419-446). Springer, Cham.
+
+Additionally, the segmentation algorithm in one of its references (a UCI paper!) was implemented in this project:
+
+> Keogh E, Chu S, Hart D, Pazzani M (2004) Segmenting time series: a survey and novel approach. In: Last M, Kandel A, Bunke H (eds) Data mining in time series databases. World Scientific Publishing Company, Singapore, pp 1–21
