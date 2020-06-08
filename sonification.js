@@ -168,16 +168,31 @@ let sonification_of = (parameter_map, measurement_types, config) => {
 
     // midi_event_generators[parameter][time] = a function that adds a midi event to a given track
     // See sonify_parameter() comments for why
-    let midi_event_generators = Object.keys(parameter_map).map(parameter => sonify_parameter(parameter,parameter_map[parameter], measurement_types[parameter], config))
+    let midi_event_generators = {}
+    
+    Object.keys(parameter_map).forEach(parameter => {
+        midi_event_generators[parameter] = sonify_parameter(parameter, parameter_map[parameter], measurement_types[parameter], config)
+    })
 
-    // We need to add the events of every parameter in order of time, not parameter type
-    // otherwise we'll see all the CC events occur after the notes are done
-    for(let time = 0; time < midi_event_generators[0].length; time++)
-        for(let par = 0; par < midi_event_generators.length; par++)
-        {
-            let add_event_to = midi_event_generators[par][time]
-            add_event_to(midi_track)
-        }
+    // We need to add the events of every parameter in order of time
+    // otherwise we'll see all the CC events occur before any notes even play
+    for(let time = 0; time < Object.values(midi_event_generators)[0].length; time++)
+    {
+        // We need to separate out the CC events from the note events
+        // because all CC events should occur before we schedule the note
+        let cc_event_generators = []
+        let note_event_generators = [] // should only contain one, but in case we ever support polysynths
+
+        Object.keys(parameter_map).forEach(parameter => {
+            if(parameter == "pitch")
+                note_event_generators.push(midi_event_generators[parameter][time])
+            else
+                cc_event_generators.push(midi_event_generators[parameter][time])
+        })
+
+        cc_event_generators.forEach(add_event_to => add_event_to(midi_track))
+        note_event_generators.forEach(add_event_to => add_event_to(midi_track))
+    }
     
     return new MidiWriter.Writer(midi_track).dataUri()
 }
