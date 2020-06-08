@@ -22,7 +22,8 @@ To make use of the API, perform a POST request to `[server host:port]/sonify` wi
   */
   parameter_map: {
     pitch:          [/* numbers, representing data */],
-    volume:         [/* numbers, representing data */]
+    volume:         [/* numbers, representing data */],
+    pan:            [/* numbers, representing data */]
   },
   
   
@@ -42,7 +43,8 @@ To make use of the API, perform a POST request to `[server host:port]/sonify` wi
   */
   measurement_types: {
     pitch:          /* one of "mean", "min", "max", "length" */,
-    volume:         /* one of "mean", "min", "max", "length" */
+    volume:         /* one of "mean", "min", "max", "length" */,
+    pan:            /* one of "mean", "min", "max", "length" */
   },
   
   
@@ -64,4 +66,4 @@ To make use of the API, perform a POST request to `[server host:port]/sonify` wi
 
 ## Example usage
 
-See the [Data to Sound project page](https://thanasibakis.github.io/CS190/data2sound) or its [source code](https://github.com/thanasibakis/CS190/tree/master/final-project).
+This API is currently deployed at [https://data2sound.herokuapp.com](https://data2sound.herokuapp.com). Navigating to this page directly (ie. not the /sonify endpoint) will bring you to the Data to Sound project page, a client program that interfaces with this API. Its source code can be found [here](https://github.com/thanasibakis/CS190/tree/master/final-project).

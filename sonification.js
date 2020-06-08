@@ -236,6 +236,9 @@ let sonify_parameter = (parameter, ts, measurement_type, config) => {
 
         case "volume":
             return segments.map(segment => create_cc_event_from(segment, 7, value_function, ts_statistics, config))
+
+        case "pan":
+            return segments.map(segment => create_cc_event_from(segment, 10, value_function, ts_statistics, config))
     }   
 }
 
