@@ -46,8 +46,8 @@ let create_cc_event_from = (array, cc_number, value_function, ts_statistics) => 
             segment_value,
             ts_statistics.min,
             ts_statistics.max,
-            0,
-            127
+            config.volume_low,
+            config.volume_high
         )
     )
 
@@ -192,32 +192,30 @@ let sonification_of = (parameter_map, measurement_types, config) => {
 let sonify_parameter = (parameter, ts, measurement_type, config) => {
     let segments = Segmentation.segmentation_of(ts)
 
-    let ts_statistics = {}
+    let ts_statistics = {
+        min: Math.min(...ts),
+        max: Math.max(...ts),
+        min_length: segments.map(value_function).reduce((a,b) => Math.min(a,b)),
+        max_length: segments.map(value_function).reduce((a,b) => Math.max(a,b))    
+    }
+
     let value_function = null
 
     switch(measurement_type) {
         case "mean":
             value_function = mean
-            ts_statistics.min = Math.min(...ts)
-            ts_statistics.max = Math.max(...ts)
             break
 
         case "min":
             value_function = (segment => Math.min(...segment))
-            ts_statistics.min = Math.min(...ts)
-            ts_statistics.max = Math.max(...ts)
             break
 
         case "max":
             value_function = (segment => Math.max(...segment))
-            ts_statistics.min = Math.min(...ts)
-            ts_statistics.max = Math.max(...ts)
             break
         
         case "length":
             value_function = (segment => segment.length)
-            ts_statistics.min = segments.map(value_function).reduce((a,b) => Math.min(a,b))
-            ts_statistics.max = segments.map(value_function).reduce((a,b) => Math.max(a,b))
             break
     }
 

@@ -54,6 +54,8 @@ To make use of the API, perform a POST request to `[server host:port]/sonify` wi
     ticks_per_samp: /* integer, the minimal duration of each sonified segment, in MIDI ticks */,
     range:          /* integer, the number of tones to use in sonification */,
     low:            /* integer, the lowest MIDI note to use in sonification */,
+    volume_low:     /* integer 0-127, the lowest volume level to use in sonification */,
+    volume_high:    /* integer 0-127, the highest volume level to use in sonification */,
     scale:          [/* integers, representing the pitch classes of scale tones */]
   }
   
