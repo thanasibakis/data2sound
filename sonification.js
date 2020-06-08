@@ -37,8 +37,19 @@ let mean = helpers.mean
 
         max:
             The maximum value that value_function is expected to output
+
+    config:
+        An object containing information about the range of desired output note values.
+
+        It must contain at least the following properties:
+
+        volume_low:
+            The lowest desired volume level (0-127) that the CC event will possibly receive.
+
+        volume_high:
+            The highest desired volume level (0-127) that the CC event will possibly receive.
 */
-let create_cc_event_from = (array, cc_number, value_function, ts_statistics) => {
+let create_cc_event_from = (array, cc_number, value_function, ts_statistics, config) => {
     let segment_value = value_function(array)
 
     let cc_value = Math.round(
@@ -81,17 +92,17 @@ let create_cc_event_from = (array, cc_number, value_function, ts_statistics) => 
         max:
             The maximum value that value_function is expected to output
 
-        config:
-            An object containing information about the range of desired output note values.
+    config:
+        An object containing information about the range of desired output note values.
 
-            It must contain at least the following properties:
+        It must contain at least the following properties:
 
-            low:
-                The MIDI note number of the desired lowest note to possibly be returned.
+        low:
+            The MIDI note number of the desired lowest note to possibly be returned.
 
-            range:
-                The desired number of unique MIDI notes to possibly be returned.
-                The actual range of notes starts at low and ends at low + range, inclusive.
+        range:
+            The desired number of unique MIDI notes to possibly be returned.
+            The actual range of notes starts at low and ends at low + range, inclusive.
 */
 let create_note_event_from = (array, value_function, ts_statistics, config) => {
     let duration = array.length * config.ticks_per_samp
@@ -192,15 +203,9 @@ let sonification_of = (parameter_map, measurement_types, config) => {
 let sonify_parameter = (parameter, ts, measurement_type, config) => {
     let segments = Segmentation.segmentation_of(ts)
 
-    let ts_statistics = {
-        min: Math.min(...ts),
-        max: Math.max(...ts),
-        min_length: segments.map(segment => segment.length).reduce((a,b) => Math.min(a,b)),
-        max_length: segments.map(segment => segment.length).reduce((a,b) => Math.max(a,b))    
-    }
-
     let value_function = null
 
+    // Decide how each segment will be reduced to a value
     switch(measurement_type) {
         case "mean":
             value_function = mean
@@ -219,12 +224,18 @@ let sonify_parameter = (parameter, ts, measurement_type, config) => {
             break
     }
 
+    // Get the min/max of those reduced segments, for mapping to note parameters
+    let ts_statistics = {
+        min: segments.map(value_function).reduce((a,b) => Math.min(a,b)),
+        max: segments.map(value_function).reduce((a,b) => Math.max(a,b))
+    }
+
     switch(parameter) {
         case "pitch":
             return segments.map(segment => create_note_event_from(segment, value_function, ts_statistics, config))
 
         case "volume":
-            return segments.map(segment => create_cc_event_from(segment, 7, value_function, ts_statistics))
+            return segments.map(segment => create_cc_event_from(segment, 7, value_function, ts_statistics, config))
     }   
 }
 
