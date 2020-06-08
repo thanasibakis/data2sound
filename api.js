@@ -26,6 +26,11 @@ app.post("/sonify", (req, res) => {
     res.send(Sonification.sonification_of(parameter_map, measurement_types, config))
 })
 
+// Send users who load the API URL in a browser to the client app page
+app.get("/", (req, res) => {
+    res.redirect("https://thanasibakis.github.io/CS190/data2sound")
+})
+
 // Prioritize cmdline arg "node api.js [port]", then Heroku's PORT environment var, then default to 80
 let port = process.argv[2] || process.env.PORT || 80
 app.listen(port, () => console.log(`Now listening on port ${port}...`))
