@@ -195,8 +195,8 @@ let sonify_parameter = (parameter, ts, measurement_type, config) => {
     let ts_statistics = {
         min: Math.min(...ts),
         max: Math.max(...ts),
-        min_length: segments.map(value_function).reduce((a,b) => Math.min(a,b)),
-        max_length: segments.map(value_function).reduce((a,b) => Math.max(a,b))    
+        min_length: segments.map(segment => segment.length).reduce((a,b) => Math.min(a,b)),
+        max_length: segments.map(segment => segment.length).reduce((a,b) => Math.max(a,b))    
     }
 
     let value_function = null
