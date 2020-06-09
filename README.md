@@ -70,7 +70,7 @@ Theoretically, it's easy to add support for more parameters here-- especially co
 
 ## Example usage
 
-This API is currently deployed at [data2sound.herokuapp.com](https://data2sound.herokuapp.com). Navigating to this page directly (ie. not the /sonify endpoint) will bring you to the Data to Sound project page, a client program that interfaces with this API. Its source code can be found [here](https://github.com/thanasibakis/CS190/tree/master/final-project).
+This API is currently deployed at [data2sound.herokuapp.com](https://data2sound.herokuapp.com). Navigating to this page directly (ie. not the /sonify endpoint) will bring you to my Data to Sound project page, a client program that interfaces with this API. Its source code can be found at the [sister repository](https://github.com/thanasibakis/CS190/tree/master/final-project) for this project, although this API can run completely independently from that codebase (the other way around is not true).
 
 ## Credits
 
