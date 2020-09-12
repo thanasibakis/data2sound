@@ -1,6 +1,12 @@
 # data2sound
 This is a Node.js server for the sonification of time series data to the MIDI format.
 
+## Example usage
+
+The API is put to use on my [Data to Sound](https://thanasibakis.github.io/CS190/data2sound) project page. Its source code can be found at [here](https://github.com/thanasibakis/CS190/tree/master/final-project). (Note that this API can run completely independently from that codebase-- the other way around is not true.)
+
+An instance of the API is currently deployed at [data2sound.herokuapp.com](https://data2sound.herokuapp.com) for the use of client programs like the one mentioned above. Navigating to this page directly (ie. not the /sonify endpoint) will bring you to this repository. 
+
 ## Running the server
 
 `node api.js [optional port number]`
@@ -67,12 +73,6 @@ To make use of the API, perform a POST request to `[server host:port]/sonify` wi
 ## Will more sound parameters be supported?
 
 Theoretically, it's easy to add support for more parameters here-- especially continuous controllers, since they're usually just mapping the data to values 0-127. However, this was developed alongside a client program (see below, "Example Usage") which interprets the MIDI messages to feed to a Tone.js synth, so at the moment, I'm keeping the capabilties of the two programs hand-in-hand.
-
-## Example usage
-
-The API is put to use on my [Data to Sound](https://thanasibakis.github.io/CS190/data2sound) project page. Its source code can be found at [here](https://github.com/thanasibakis/CS190/tree/master/final-project). (Note that this API can run completely independently from that codebase-- the other way around is not true.)
-
-An instance of the API is currently deployed at [data2sound.herokuapp.com](https://data2sound.herokuapp.com) for the use of client programs like the one mentioned above. Navigating to this page directly (ie. not the /sonify endpoint) will bring you to this repository. 
 
 ## Credits
 
