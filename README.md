@@ -5,7 +5,7 @@ This is a Node.js server for the sonification of time series data to the MIDI fo
 
 The API is put to use on my [Data to Sound](https://thanasibakis.github.io/CS190/data2sound) project page. Its source code can be found at [here](https://github.com/thanasibakis/CS190/tree/master/final-project). (Note that this API can run completely independently from that codebase-- the other way around is not true.)
 
-An instance of the API is currently deployed at [data2sound.herokuapp.com](https://data2sound.herokuapp.com) for the use of client programs like the one mentioned above. Navigating to this page directly (ie. not the /sonify endpoint) will bring you to this repository. 
+An instance of the API is currently deployed at [data2sound.thanasibakis.com](https://data2sound.thanasibakis.com/sonify) for the use of client programs like the one mentioned above. Navigating to this page directly (ie. not the /sonify endpoint) will bring you to this repository. 
 
 ## Running the server
 
